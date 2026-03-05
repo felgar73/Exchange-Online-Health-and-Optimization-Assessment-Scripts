@@ -28,13 +28,11 @@ $onPremDir = $outputDir + '\OnPremises'
 $errorLog = $outputDir + '\ErrorLog.log'
 
 #OnPrem output paths:
-$hybConfigjson = $onPremDir + '\HybridConfig.json'
-$hybtxtPath = $onPremDir + '\Hybrid-Config.txt'
+$hybConfigjson = $onPremDir + '\Get-HybridConfig.json'
+$hybtxtPath = $onPremDir + '\Get-HybridConfig.txt'
 $sendConnJson = $onPremDir + '\SendConnectors.json'
-#$sendConnXmlPath = $onPremDir + '\SendConnector.xml'
 $sendConnTxtPath = $onPremDir + '\Sendconnector.txt'
 $recConnjson = $onPremDir + '\ReceiveConnectors.json'
-#$recConnXmlPath = $onPremDir + '\ReceiveConnectors.xml'
 $recConnTxtPath = $onPremDir + '\ReceiveConnectors.txt'
 $exchCertjson = $onPremDir + '\Get-ExchangeCertificate.json'
 $exchCertpath = $onPremDir + '\Exchange-Certificates.txt'
@@ -47,7 +45,6 @@ $ewsVdirjson = $onPremDir + '\Get-WebServicesVirtualDirectory.json'
 $ewstxtPath = $onPremDir + '\EWS-TxtOutput.txt'
 $opOauthConfigjson = $onPremDir + '\OAuthConfig.json'
 $opOauthPath = $onPremDir + '\OAuth-Configs_OnPrem.txt'
-#$authsvrxmlPath = $onPremDir + '\Get-AuthServer.xml'
 $authSvrjson = $onPremDir + '\Get-AuthServer.json'
 $hcwLogsOPPath = $onPremDir + '\HCW-LogCmds_OnPrem.txt'
 $opRemDomtxt = $onPremDir + '\RemoteDomains_OnPrem.txt'
@@ -56,7 +53,6 @@ $authConfigpath = $onPremDir + '\Get-AuthConfig_OnPrem.txt'
 $OPaddpoltxt = $onPremDir + '\EmailAddressPolicy_OnPrem.txt'
 $opAddpoljson = $onPremDir + '\Get-EmailAddressPolicy.json'
 $opOrgConfigtxt = $onPremDir + '\OrganizationConfig-OnPrem.txt'
-#$partnerAppxml = $onPremDir + '\PartnerApplication-OnPrem.xml'
 $partnerAppjson = $onPremDir + '\Get-PartnerApplication.json'
 $skypeIntTxt = $onPremDir + '\SkypeIntegration-Configs.txt'
 $opIOConnjson = $onPremDir + '\Get-IntraOrganizationConnector.json'
@@ -167,7 +163,7 @@ function OnPremDir-Create {
 
 #Collect On-Prem Yes-No Function:
 function OnPrem-CollectQ{
-Write-Host -ForegroundColor Yellow "Do you wish to collect on-premises data? Y/N:"
+Write-Host -ForegroundColor Yellow "Ready to collect on-premises data? Y/N:"
   $ans = Read-Host
     if ((!$ans) -or ($ans -eq 'y') -or ($ans -eq 'yes')){
         $ans = 'yes'
@@ -337,7 +333,7 @@ function OnPrem-Collection {
     Add-Content $opOauthPath -Value "===Auth Server Settings===:"
     $authsvr = Get-AuthServer
     $authsvr | ConvertTo-Json | Out-File $authSvrjson
-    $authsvr | FL Name,type,realm,enabled,TokenIssuingEndpoint,AuthorizationEndpoint,IsDefaultAuthorizationEndpoint | Out-File -Append $opOauthPath
+    $authsvr | FL Name,type,realm,enabled,Domainname,ApplicationIdentifier,TokenIssuingEndpoint,AuthorizationEndpoint,IsDefaultAuthorizationEndpoint | Out-File -Append $opOauthPath
     Add-Content $OPoauthPath -Value "**Additional Auth Server details found in Json file."
     $authConftext = "===On-Premises Auth Config===:"
     $authConftext | Out-File $authConfigpath
