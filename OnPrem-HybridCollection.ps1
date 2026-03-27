@@ -1,12 +1,27 @@
-#
- DISCLAIMER: 
+<#    
+    DISCLAIMER: 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE
+    SOFTWARE.
+#>
+
+<#
+.Description
+    This script collects on-premises configuration details related to Exchange Hybrid. 
+    Its intended use is as part of the Exchange Online Health & Optimization Assessment.
+    
+.NOTES
+    Name: On-Prem-HybridCollection.ps1
+    
+    -Script assumes Kerberos Auth is enabled on-prem.
+    -Script can be run from any domain-joined machine, but it's recommended to run it directly on an Exchange Server via Exch Mgmt Shell (EMS).
+    -If using a remote Powershell session (not EMS), Exchange certificate details collected will be limited. 
+    
+#>
 
 #Check for 'run as admin':
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
