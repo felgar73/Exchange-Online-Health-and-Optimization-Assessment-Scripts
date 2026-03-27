@@ -1,5 +1,26 @@
-# For collecting EXO Hybrid Configuration settings. 
-# Requires EXO Powershell module and Graph Powershell module for collection of Entra ID info related to OAuth configuration.
+<#    
+    DISCLAIMER: 
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+#>
+
+<#
+.Description
+    This script collects cloud-based configuration details related to Exchange Hybrid. 
+    Its intended use is as part of the Exchange Online Health & Optimization Assessment.
+    
+.NOTES
+    Name: Cloud-HybridCollection.ps1
+    
+    -Requires EXO V3 Powershell and MgGraph modules.
+    -Requires at least Read-only permissions for EXO and Entra ID in order to collect data.
+
+#>
 
 #Check for 'run as admin':
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
