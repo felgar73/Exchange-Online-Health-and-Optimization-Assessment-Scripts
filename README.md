@@ -1,5 +1,4 @@
 # Exchange-Online-Health-and-Optimization-Assessment-Scripts
-Used as part of Hybrid Assessment 
 
 DISCLAIMER: 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
