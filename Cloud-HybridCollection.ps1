@@ -260,7 +260,7 @@ Write-Host -ForegroundColor Cyan "Connecting to Entra ID..."
         Add-Content $EntraSpnpath -Value ""
 
         Add-Content $EntraSpnpath -Value "===Hybrid Application Info===:"
-        $hybridapp | FL DisplayName,Appid,Description,Notes | Out-File -Append $EntraSpnpath
+        $hybridapp | FL DisplayName,Appid,AccountEnabled,Description,Notes | Out-File -Append $EntraSpnpath
     }
 }
 
