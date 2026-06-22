@@ -2,7 +2,7 @@
 
 All notable changes to `On-Prem-HybridCollection.ps1` should be documented in this file.
 
-## [Unreleased]
+## [2026-06-12]
 
 ### Added
 - `Get-ExchServerDetails` function to collect Exchange server details and output to both text and JSON files.
