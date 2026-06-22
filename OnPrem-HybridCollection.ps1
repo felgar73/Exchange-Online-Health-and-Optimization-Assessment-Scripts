@@ -16,6 +16,7 @@
     
 .NOTES
     Name: On-Prem-HybridCollection.ps1
+    Changelog: On-Prem-HybridCollection-Changelog.md
     
     -Script assumes Kerberos Auth is enabled on-prem.
     -Script can be run from any domain-joined machine, but it's recommended to run it directly on an Exchange Server via Exch Mgmt Shell (EMS).
@@ -81,6 +82,7 @@ $skypeIntTxt = $onPremDir + '\SkypeIntegration-Configs.txt'
 $opIOConnjson = $onPremDir + '\Get-IntraOrganizationConnector.json'
 $opOrgReljson =  $onPremDir + '\Get-OrganizationRelationship.json'
 $OpacceptedDomJson = $onPremDir + '\Get-AcceptedDomain.json'
+$allserversTxt = $onPremDir + '\AllServers.txt'
 $allserversJson = $onPremDir + '\Get-AllServers.json'
 
 #Create Collection Folder:
@@ -195,7 +197,6 @@ Write-Host -ForegroundColor Yellow "Ready to collect on-premises data? Y/N:"
     #Enter Hybrid server names:
     Write-Host -ForegroundColor Yellow "Enter your Hybrid server names separated by commas (Ex: server1,server2):"
     $script:hybsvrs = (Read-Host).split(",") | foreach {$_.trim()}
-    #$hybsvrs | ConvertTo-Json | Out-File $allserversJson
 
     #Check/Create output folder:
     OnPremDir-Create
@@ -218,7 +219,7 @@ function OnPrem-RemoteQ {
     } else {Write-Host -ForegroundColor Cyan "Skipping remote powershell connection to on-premises..."}
 }
 function Remote-ExchOnPrem {
-    Write-Host -ForegroundColor Yellow "Enter your On-Premises Exchange server FQDN:"
+    Write-Host -ForegroundColor Yellow "Enter your On-Premises Exchange server FQDN (Ex: server.domain.com):"
     $fqdn = Read-Host 
     $opCreds = Get-Credential -Message "Enter your Exchange admin credentials:" -UserName $env:USERDOMAIN\$env:USERNAME
     $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri http://$fqdn/powershell/ -Credential $opCreds -Authentication Kerberos
@@ -230,6 +231,13 @@ function Remote-ExchOnPrem {
            exit
        }
 }
+#Get Exchange Server Details Function:
+function Get-ExchServerDetails {
+    $script:exchServers = $hybsvrs | foreach {Get-ExchangeServer -Identity $_}
+    $exchServers | FL Name,AdminDisplayVersion | Out-File $allserversTxt
+    $exchServers | ConvertTo-Json | Out-File $allserversJson
+}
+
 #Exch Certs Function:
 function ExchCert-Collection {
     $script:exchCerts = $hybsvrs | foreach {Get-ExchangeCertificate -Server $_}
@@ -251,11 +259,14 @@ function OnPrem-Collection {
     if ($fenlimit -ne '-1'){
         $FormatEnumerationLimit=-1
     }
+    
+    #Collect Exchange Server details:
+    Get-ExchServerDetails
+
     #On-Prem Configs Collection:
     $hybtext = "===Hybrid Servers Entered===:"
     $hybtext | Out-File $hybtxtPath
     $hybsvrs | Out-File -Append $hybtxtPath
-    $hybsvrs | ConvertTo-Json | Out-File $allserversJson
     Add-Content $hybtxtPath -Value "===Hybrid Configuration===:"
     $hybConf = Get-HybridConfiguration
     $hybConf | FL | Out-File -Append $hybtxtPath
