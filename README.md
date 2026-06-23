@@ -19,12 +19,11 @@ DISCLAIMER:
     -Powershell should to be 'Run As Administrator'.
 
     General Notes:
+    -On-Prem script should be run directly from an Exchange server via Exchange Mgmt Shell for best results.
+    -If using remote powershell session, details collected for Exchange certificates will be limited due to a powershell limitation.
     -Script assumes Kerberos Auth is enabled on-prem for remote Exchange session.
-    -Requires EXO V3 Powershell module for EXO collection.
-    -Requires Entra ID rights for SPN data.
-    -On-Prem script should be run directly from and Exchange server via Exchange Mgmt Shell in order to get the best results.
-    -If using remote powershell session, details collected for Exchange certificates will be limited due to a powershell limitation. 
     -Cloud collection script can be run from any machine that has the EXO powershell and MgGraph modules installed.
+    -Requires Entra ID rights for SPN data collection.
 
     -The script will first prompt you on whether you wish to collect on-premises Exchange data and whether or not a remote powershell session is needed for this (if running from local Exchange server, simply answer 'No' to this question). 
     -Cloud collection script will ask whether you wish to collect Exchange Online data (may remove this later). 
